@@ -69,7 +69,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // In production, this will call Lambda through API Gateway
       const response = await authApi.login(email, password);
       
-      if (response.error) {
+      // Fixed: Check for error in a type-safe way
+      if ('error' in response) {
         throw new Error(response.error);
       }
       
@@ -107,7 +108,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // In production, this will call Lambda through API Gateway
       const response = await authApi.socialLogin(provider);
       
-      if (response.error) {
+      // Fixed: Check for error in a type-safe way
+      if ('error' in response) {
         throw new Error(response.error);
       }
       
@@ -154,7 +156,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // In production, this will call Lambda through API Gateway
       const response = await authApi.signup(email, password, companyName);
       
-      if (response.error) {
+      // Fixed: Check for error in a type-safe way
+      if ('error' in response) {
         throw new Error(response.error);
       }
       
