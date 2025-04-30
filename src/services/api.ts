@@ -79,6 +79,25 @@ export const authApi = {
     return response;
   },
   
+  socialLogin: async (provider: 'google' | 'facebook' | 'linkedin') => {
+    // In production, this would call an AWS Lambda function
+    const response = await fetchFromApi<{ token: string; user: any; tenantId: string }>(
+      `/auth/${provider}/login`, 
+      {
+        method: "POST",
+      }
+    );
+    
+    // For development/demo purposes only
+    // Simulate successful login with mock data
+    if (!response.data && !response.error) {
+      // Simulate successful response for demo
+      return { data: { token: "social-demo-token", user: { email: `demo.${provider}@example.com` } } };
+    }
+    
+    return response;
+  },
+  
   signup: async (email: string, password: string, companyName: string) => {
     // In production, this would call an AWS Lambda function
     const response = await fetchFromApi<{ token: string; user: any; tenantId: string }>(

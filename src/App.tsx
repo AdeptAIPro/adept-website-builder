@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import TalentMatchmaking from "./pages/TalentMatchmaking";
 import Compliance from "./pages/Compliance";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import AuthProvider from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route 
               path="/dashboard" 
               element={

@@ -26,6 +26,9 @@ const Navbar: React.FC = () => {
           <Link to="#features" className="text-foreground/70 transition-colors hover:text-foreground">
             Features
           </Link>
+          <Link to="/pricing" className="text-foreground/70 transition-colors hover:text-foreground">
+            Pricing
+          </Link>
           <Link to="#about" className="text-foreground/70 transition-colors hover:text-foreground">
             About
           </Link>
@@ -108,6 +111,13 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Features
+            </Link>
+            <Link
+              to="/pricing"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Pricing
             </Link>
             <Link
               to="#about"

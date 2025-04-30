@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Candidate {
   id: string;
@@ -30,10 +32,22 @@ const TalentMatchmaking: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const { isAuthenticated, user, checkUsageLimit } = useAuth();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+      
+      // For free tier users, check usage limits
+      if (!isAuthenticated) {
+        const canProceed = await checkUsageLimit();
+        if (!canProceed) {
+          navigate('/pricing');
+          return;
+        }
+      }
+      
       try {
         // These calls would go to AWS Lambda in production
         const [candidatesResponse, jobsResponse] = await Promise.all([
@@ -61,7 +75,7 @@ const TalentMatchmaking: React.FC = () => {
     };
     
     fetchData();
-  }, []);
+  }, [isAuthenticated, checkUsageLimit, navigate]);
   
   const handleMatch = async (candidateId: string, jobId: string) => {
     try {
@@ -144,6 +158,25 @@ const TalentMatchmaking: React.FC = () => {
   const displayCandidates = filteredCandidates.length > 0 ? filteredCandidates : demoData;
   const displayJobs = jobs.length > 0 ? jobs : demoJobs;
 
+  // Show usage information for free tier
+  const renderUsageInfo = () => {
+    if (!isAuthenticated) {
+      const usageCount = parseInt(localStorage.getItem('freeUsageCount') || '0', 10);
+      return (
+        <div className="bg-primary/10 p-4 rounded-lg mb-6">
+          <h3 className="text-sm font-medium mb-1">Free Tier Usage</h3>
+          <p className="text-xs text-muted-foreground">
+            You have used {usageCount} of 5 free matches. 
+            <Button variant="link" className="p-0 h-auto text-xs" onClick={() => navigate('/pricing')}>
+              Upgrade now
+            </Button> for unlimited access.
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
@@ -156,6 +189,8 @@ const TalentMatchmaking: React.FC = () => {
           Run AI Matching
         </Button>
       </div>
+      
+      {renderUsageInfo()}
       
       <div className="flex mb-6">
         <div className="relative w-full max-w-md">
