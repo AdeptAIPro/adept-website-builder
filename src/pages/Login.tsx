@@ -1,43 +1,33 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const location = useLocation();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Get the location the user was trying to access
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     try {
-      // This will be replaced with a call to our backend API
-      console.log("Logging in with:", { email });
-      
-      // Simulate successful login
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', email);
-      
-      toast({
-        title: "Login successful",
-        description: "Redirecting to dashboard...",
-      });
-      
-      navigate('/dashboard');
+      await login(email, password);
+      // Navigate to the page they were trying to access
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Login error:", error);
-      toast({
-        title: "Login failed",
-        description: "Please check your credentials and try again.",
-        variant: "destructive",
-      });
+      // Toast is handled in AuthContext
     } finally {
       setIsLoading(false);
     }

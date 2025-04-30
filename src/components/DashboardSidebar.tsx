@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
   Users, 
@@ -8,9 +8,13 @@ import {
   Briefcase, 
   BarChart, 
   Settings, 
-  CheckSquare 
+  CheckSquare,
+  Brain,
+  Link as LinkIcon,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SidebarItemProps {
   icon: React.ElementType;
@@ -40,9 +44,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 };
 
 const DashboardSidebar: React.FC = () => {
-  // This would typically come from a route match check
-  const activeRoute = window.location.pathname;
-  const companyName = localStorage.getItem('companyName') || 'Your Company';
+  const location = useLocation();
+  const { user } = useAuth();
+  const activeRoute = location.pathname;
+  const companyName = user?.companyName || 'Your Company';
   
   return (
     <aside className="w-64 border-r hidden md:block bg-card/50 p-4">
@@ -58,7 +63,7 @@ const DashboardSidebar: React.FC = () => {
           active={activeRoute === '/dashboard'}
         />
         <SidebarItem 
-          icon={Users} 
+          icon={Brain} 
           label="Talent Matchmaking" 
           href="/dashboard/talent" 
           active={activeRoute.includes('/talent')}
@@ -82,10 +87,22 @@ const DashboardSidebar: React.FC = () => {
           active={activeRoute.includes('/analytics')}
         />
         <SidebarItem 
-          icon={CheckSquare} 
+          icon={Shield} 
           label="Compliance" 
           href="/dashboard/compliance" 
           active={activeRoute.includes('/compliance')}
+        />
+        <SidebarItem 
+          icon={LinkIcon} 
+          label="Integrations" 
+          href="/dashboard/integrations" 
+          active={activeRoute.includes('/integrations')}
+        />
+        <SidebarItem 
+          icon={Users} 
+          label="Talent Marketplace" 
+          href="/dashboard/marketplace" 
+          active={activeRoute.includes('/marketplace')}
         />
         <SidebarItem 
           icon={Settings} 

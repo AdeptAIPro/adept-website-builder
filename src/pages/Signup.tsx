@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from '@/hooks/use-toast';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { signup } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,27 +31,11 @@ const Signup: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // This will be replaced with a call to our backend API
-      console.log("Signing up with:", { email, companyName });
-      
-      // Simulate successful signup
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('companyName', companyName);
-      
-      toast({
-        title: "Account created",
-        description: "Your account has been created successfully.",
-      });
-      
+      await signup(email, password, companyName);
       navigate('/dashboard');
     } catch (error) {
+      // Toast is handled in AuthContext
       console.error("Signup error:", error);
-      toast({
-        title: "Signup failed",
-        description: "There was a problem creating your account.",
-        variant: "destructive",
-      });
     } finally {
       setIsLoading(false);
     }

@@ -8,11 +8,21 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import TalentMatchmaking from "./pages/TalentMatchmaking";
+import Compliance from "./pages/Compliance";
 import NotFound from "./pages/NotFound";
 import AuthProvider from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const queryClient = new QueryClient();
+// Create a client for react-query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 30000, // 30 seconds
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -30,6 +40,22 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/talent" 
+              element={
+                <ProtectedRoute>
+                  <TalentMatchmaking />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/compliance" 
+              element={
+                <ProtectedRoute>
+                  <Compliance />
                 </ProtectedRoute>
               } 
             />

@@ -1,9 +1,12 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authApi } from '@/services/api';
+import { toast } from '@/hooks/use-toast';
 
 interface User {
   email: string;
   companyName?: string;
+  tenantId?: string; // Added for multi-tenant architecture
 }
 
 interface AuthContextType {
@@ -36,9 +39,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (isAuth) {
         const email = localStorage.getItem('userEmail') || '';
         const companyName = localStorage.getItem('companyName');
+        const tenantId = localStorage.getItem('tenantId');
+        
         setUser({ 
           email,
-          companyName: companyName || undefined
+          companyName: companyName || undefined,
+          tenantId: tenantId || undefined
         });
       }
       setIsLoading(false);
@@ -50,24 +56,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // In a real implementation, this would call your backend API
-      // For now, we'll just simulate a successful login
+      // In development, this is a simulated call
+      // In production, this will call Lambda through API Gateway
+      const response = await authApi.login(email, password);
       
-      // Here would be the Lambda function call via API Gateway
-      // const response = await fetch('https://your-api.execute-api.region.amazonaws.com/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password })
-      // });
+      if (response.error) {
+        throw new Error(response.error);
+      }
       
-      // if (!response.ok) throw new Error('Login failed');
-      // const data = await response.json();
+      // If we got here, login was successful
+      setUser({ 
+        email,
+        companyName: localStorage.getItem('companyName') || undefined,
+        tenantId: localStorage.getItem('tenantId') || undefined
+      });
       
-      // Simulate successful response
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', email);
+      toast({
+        title: "Login successful",
+        description: "Welcome back!",
+      });
       
-      setUser({ email });
+    } catch (error) {
+      console.error("Login error:", error);
+      toast({
+        title: "Login failed",
+        description: error instanceof Error ? error.message : "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -76,25 +92,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (email: string, password: string, companyName: string) => {
     setIsLoading(true);
     try {
-      // In a real implementation, this would call your backend API
-      // Similar to the login function above
+      // In development, this is a simulated call
+      // In production, this will call Lambda through API Gateway
+      const response = await authApi.signup(email, password, companyName);
       
-      // Simulate successful response
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('companyName', companyName);
+      if (response.error) {
+        throw new Error(response.error);
+      }
       
-      setUser({ email, companyName });
+      // If we got here, signup was successful
+      setUser({ 
+        email, 
+        companyName,
+        tenantId: localStorage.getItem('tenantId')
+      });
+      
+      toast({
+        title: "Account created",
+        description: "Your account has been created successfully.",
+      });
+      
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast({
+        title: "Signup failed",
+        description: error instanceof Error ? error.message : "There was a problem creating your account.",
+        variant: "destructive",
+      });
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('companyName');
+  const logout = async () => {
+    await authApi.logout();
     setUser(null);
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully.",
+    });
   };
 
   return (

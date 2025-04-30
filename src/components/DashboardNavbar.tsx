@@ -1,18 +1,30 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bell, Search, Settings, User, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const DashboardNavbar: React.FC = () => {
   const navigate = useNavigate();
-  const userEmail = localStorage.getItem('userEmail') || '';
+  const { user, logout } = useAuth();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('companyName');
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
   
   return (
@@ -23,7 +35,7 @@ const DashboardNavbar: React.FC = () => {
             Adept<span className="text-primary">AI</span>
           </a>
           
-          <div className="relative hidden md:block ml-4 w-64">
+          <div className={`relative md:block ml-4 w-64 ${isSearchOpen ? 'block' : 'hidden'}`}>
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="search"
@@ -34,6 +46,15 @@ const DashboardNavbar: React.FC = () => {
         </div>
         
         <nav className="flex items-center gap-1 md:gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+          >
+            <Search className="h-5 w-5" />
+          </Button>
+          
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="h-5 w-5" />
             <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary"></span>
@@ -44,29 +65,31 @@ const DashboardNavbar: React.FC = () => {
           </Button>
           
           <div className="relative ml-2 md:ml-4">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="rounded-full w-8 h-8 md:w-9 md:h-9 bg-primary text-white"
-            >
-              <User className="h-4 w-4" />
-            </Button>
-            
-            <div className="absolute top-full right-0 mt-1 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 hidden group-hover:block">
-              <div className="p-2">
-                <div className="text-sm px-3 py-2 font-medium">{userEmail}</div>
-              </div>
-              <div className="p-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button 
                   variant="ghost" 
-                  className="flex items-center w-full justify-start px-3 py-2 text-sm" 
-                  onClick={handleLogout}
+                  size="icon" 
+                  className="rounded-full w-8 h-8 md:w-9 md:h-9 bg-primary text-white"
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
+                  <User className="h-4 w-4" />
                 </Button>
-              </div>
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+                <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
+                  {user?.companyName || 'Personal Account'}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate('/dashboard/settings')}>
+                  <Settings className="mr-2 h-4 w-4" /> Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </nav>
       </div>
