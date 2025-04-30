@@ -1,92 +1,162 @@
 
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-            <a href="/" className="flex items-center">
-              <span className="text-2xl font-bold gradient-text">Adept AI</span>
-            </a>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-            <a href="#solutions" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-              Solutions
-            </a>
-            <a href="#features" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-              Features
-            </a>
-            <a href="#about" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-              About
-            </a>
-            <Button variant="default">
-              Contact Us
-            </Button>
-          </nav>
-          
-          {/* Mobile menu button */}
-          <div className="flex md:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-foreground hover:text-primary focus:outline-none"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-              onClick={toggleMenu}
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <Link to="/" className="font-bold text-2xl">
+          Adept<span className="text-primary">AI</span>
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <Link to="/" className="text-foreground/70 transition-colors hover:text-foreground">
+            Home
+          </Link>
+          <Link to="#solutions" className="text-foreground/70 transition-colors hover:text-foreground">
+            Solutions
+          </Link>
+          <Link to="#features" className="text-foreground/70 transition-colors hover:text-foreground">
+            Features
+          </Link>
+          <Link to="#about" className="text-foreground/70 transition-colors hover:text-foreground">
+            About
+          </Link>
+          <Link to="#contact" className="text-foreground/70 transition-colors hover:text-foreground">
+            Contact
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {isAuthenticated ? (
+            <Button
+              className="hidden md:flex"
+              onClick={() => navigate('/dashboard')}
             >
-              <span className="sr-only">Open main menu</span>
+              Dashboard
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                className="hidden md:inline-flex"
+                onClick={() => navigate('/login')}
+              >
+                Sign In
+              </Button>
+              <Button
+                className="hidden md:flex"
+                onClick={() => navigate('/signup')}
+              >
+                Get Started
+              </Button>
+            </>
+          )}
+          <button
+            className="inline-flex md:hidden items-center justify-center rounded-md p-2 text-foreground"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               {isMenuOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
+                <path d="M18 6 6 18M6 6l12 12" />
               ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
+                <path d="M4 6h16M4 12h16M4 18h16" />
               )}
-            </button>
-          </div>
+            </svg>
+          </button>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div id="mobile-menu" className="md:hidden bg-background border-b animate-fade-in">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#solutions"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:text-primary"
-              onClick={toggleMenu}
+        <div className="md:hidden p-4 border-t text-sm">
+          <nav className="flex flex-col space-y-4">
+            <Link
+              to="/"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              to="#solutions"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
             >
               Solutions
-            </a>
-            <a
-              href="#features"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:text-primary"
-              onClick={toggleMenu}
+            </Link>
+            <Link
+              to="#features"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
             >
               Features
-            </a>
-            <a
-              href="#about"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:text-primary"
-              onClick={toggleMenu}
+            </Link>
+            <Link
+              to="#about"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
             >
               About
-            </a>
-            <div className="px-3 py-2">
-              <Button variant="default" className="w-full">
-                Contact Us
+            </Link>
+            <Link
+              to="#contact"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
+            {isAuthenticated ? (
+              <Button
+                onClick={() => {
+                  navigate('/dashboard');
+                  setIsMenuOpen(false);
+                }}
+                className="w-full"
+              >
+                Dashboard
               </Button>
-            </div>
-          </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    navigate('/login');
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigate('/signup');
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full"
+                >
+                  Get Started
+                </Button>
+              </div>
+            )}
+          </nav>
         </div>
       )}
     </header>
