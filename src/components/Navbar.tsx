@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -38,14 +37,13 @@ const Navbar: React.FC = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          {isAuthenticated ? (
-            <Button
-              className="hidden md:flex"
-              onClick={() => navigate('/dashboard')}
-            >
-              Dashboard
-            </Button>
-          ) : (
+          <Button
+            className="hidden md:flex"
+            onClick={() => navigate('/dashboard')}
+          >
+            Dashboard
+          </Button>
+          {!isAuthenticated && (
             <>
               <Button
                 variant="outline"
@@ -133,17 +131,16 @@ const Navbar: React.FC = () => {
             >
               Contact
             </Link>
-            {isAuthenticated ? (
-              <Button
-                onClick={() => {
-                  navigate('/dashboard');
-                  setIsMenuOpen(false);
-                }}
-                className="w-full"
-              >
-                Dashboard
-              </Button>
-            ) : (
+            <Button
+              onClick={() => {
+                navigate('/dashboard');
+                setIsMenuOpen(false);
+              }}
+              className="w-full"
+            >
+              Dashboard
+            </Button>
+            {!isAuthenticated && (
               <div className="flex flex-col gap-2">
                 <Button
                   variant="outline"

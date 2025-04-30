@@ -21,27 +21,18 @@ const Hero: React.FC = () => {
               Streamline operations, enhance decision-making, and drive innovation across your organization.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {isAuthenticated ? (
-                <Button size="lg" className="gap-2 group" asChild>
-                  <Link to="/dashboard">
-                    Go to Dashboard
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Button size="lg" className="gap-2 group" asChild>
+                <Link to="/dashboard">
+                  Go to Dashboard
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              {!isAuthenticated && (
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/login">
+                    Sign In
                   </Link>
                 </Button>
-              ) : (
-                <>
-                  <Button size="lg" className="gap-2 group" asChild>
-                    <Link to="/signup">
-                      Get Started
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="/login">
-                      Sign In
-                    </Link>
-                  </Button>
-                </>
               )}
             </div>
           </div>

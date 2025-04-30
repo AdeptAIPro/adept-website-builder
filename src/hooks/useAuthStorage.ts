@@ -47,6 +47,8 @@ export const useAuthStorage = () => {
     const newCount = usageCount + 1;
     localStorage.setItem('freeUsageCount', newCount.toString());
     
+    console.log(`Free usage tracked: ${newCount}/5`);
+    
     // Limit is 5 uses per IP address
     return newCount <= 5;
   };
