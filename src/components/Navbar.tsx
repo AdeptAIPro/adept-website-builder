@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,9 @@ const Navbar: React.FC = () => {
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link to="/" className="text-foreground/70 transition-colors hover:text-foreground">
             Home
+          </Link>
+          <Link to="/services" className="text-foreground/70 transition-colors hover:text-foreground">
+            Services
           </Link>
           <Link to="#solutions" className="text-foreground/70 transition-colors hover:text-foreground">
             Solutions
@@ -95,6 +99,13 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Home
+            </Link>
+            <Link
+              to="/services"
+              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Services
             </Link>
             <Link
               to="#solutions"
