@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Globe, Users, Briefcase, HandShake } from 'lucide-react';
+import { Globe, Users, Briefcase, Handshake } from 'lucide-react';
 
 interface HiringModelProps {
   icon: React.ReactNode;

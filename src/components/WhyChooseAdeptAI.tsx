@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Building2, Network, Clock, HandShake, FileCheck, Users } from 'lucide-react';
+import { Building2, Network, Clock, Handshake, FileCheck, Users, Globe } from 'lucide-react';
 
 interface AdvantageProps {
   icon: React.ReactNode;
@@ -46,7 +46,7 @@ const WhyChooseAdeptAI: React.FC = () => {
       description: "Pre-vetted database of 100,000+ IT professionals across all specializations, ready for immediate deployment."
     },
     {
-      icon: <HandShake className="h-7 w-7 text-primary" />,
+      icon: <Handshake className="h-7 w-7 text-primary" />,
       title: "Client-Centric Approach",
       description: "Tailored solutions with dedicated account managers and 97% client satisfaction rate across engagements."
     },
