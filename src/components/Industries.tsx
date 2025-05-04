@@ -23,7 +23,7 @@ const Industries: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Industries We Serve</h2>
           <p className="text-lg text-muted-foreground">
-            Our specialized IT staffing solutions cater to diverse sectors with industry-specific expertise
+            Our specialized IT workforce solutions cater to diverse sectors with industry-specific expertise
           </p>
         </div>
         

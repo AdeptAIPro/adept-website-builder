@@ -11,13 +11,13 @@ const ServiceHero: React.FC = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              IT <span className="gradient-text">Staffing Solutions</span>
+              IT <span className="gradient-text">Workforce Solutions</span>
             </h1>
             <p className="text-xl md:text-2xl mb-4 text-muted-foreground font-light">
               Skilled Talent at Scale – On-Time, On-Target.
             </p>
             <p className="text-lg mb-8 text-muted-foreground">
-              Navigate the complex landscape of IT talent acquisition with AdeptAI's industry-leading staffing solutions. 
+              Navigate the complex landscape of IT talent acquisition with AdeptAI's industry-leading workforce solutions. 
               We connect your business with highly qualified professionals who drive innovation and support your strategic goals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -36,8 +36,8 @@ const ServiceHero: React.FC = () => {
           </div>
           <div className="relative animate-fade-in">
             <img
-              src="/lovable-uploads/db746c80-f54e-4d46-8af3-0691f33be2c8.png"
-              alt="IT Staffing Solutions"
+              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+              alt="IT Workforce Solutions"
               className="rounded-lg shadow-xl w-full"
             />
             <div className="absolute -bottom-6 -right-6 h-24 w-24 bg-accent/20 rounded-full -z-10"></div>

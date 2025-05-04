@@ -14,7 +14,7 @@ const ServiceCTA: React.FC = () => {
               Ready to Build Your Dream Tech Team?
             </h2>
             <p className="text-lg mb-8">
-              Connect with our IT staffing specialists today and discover how AdeptAI can transform your talent acquisition strategy with innovative solutions tailored to your unique needs.
+              Connect with our IT workforce specialists today and discover how AdeptAI can transform your talent acquisition strategy with innovative solutions tailored to your unique needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="gap-2 group" asChild>

@@ -11,6 +11,7 @@ import Testimonials from '@/components/Testimonials';
 import ServiceCTA from '@/components/ServiceCTA';
 
 const Services: React.FC = () => {
+  // Title updated via ServiceHero component
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
