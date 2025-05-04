@@ -36,8 +36,8 @@ const ServiceHero: React.FC = () => {
           </div>
           <div className="relative animate-fade-in">
             <img
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-              alt="IT Workforce Solutions"
+              src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+              alt="IT Workforce Solutions - IT professionals collaborating in a modern office"
               className="rounded-lg shadow-xl w-full"
             />
             <div className="absolute -bottom-6 -right-6 h-24 w-24 bg-accent/20 rounded-full -z-10"></div>
