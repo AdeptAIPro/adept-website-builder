@@ -5,6 +5,8 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import Solutions from '@/components/Solutions';
 import About from '@/components/About';
+import Industries from '@/components/Industries';
+import TalentMatchmakingPreview from '@/components/TalentMatchmakingPreview';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
@@ -15,7 +17,9 @@ const Index: React.FC = () => {
       <main className="flex-grow">
         <Hero />
         <Solutions />
+        <TalentMatchmakingPreview />
         <Features />
+        <Industries />
         <About />
         <Contact />
       </main>
