@@ -16,9 +16,9 @@ const Index: React.FC = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        <Features />
         <Solutions />
         <TalentMatchmakingPreview />
-        <Features />
         <Industries />
         <About />
         <Contact />

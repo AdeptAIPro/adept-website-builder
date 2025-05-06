@@ -23,24 +23,38 @@ export const talentApi = {
     );
   },
   
-  // New method for matching job descriptions directly
+  // Enhanced method for matching job descriptions directly with improved analytics
   matchJobDescription: async (jobDescription: string) => {
-    return fetchFromApi<{ candidates: any[] }>(
+    return fetchFromApi<{ candidates: any[]; analytics: any }>(
       "/talent/match-description", 
       {
         method: "POST",
-        body: JSON.stringify({ jobDescription })
+        body: JSON.stringify({ 
+          jobDescription,
+          includeAnalytics: true 
+        })
       }
     );
   },
   
-  // New method for submitting resumes
+  // Enhanced method for submitting resumes with additional options
   submitResume: async (formData: FormData) => {
-    return fetchFromApi<{ success: boolean; message: string }>(
+    return fetchFromApi<{ success: boolean; message: string; candidateId?: string }>(
       "/talent/submit-resume", 
       {
         method: "POST",
         body: formData
+      }
+    );
+  },
+  
+  // New method to get skill insights
+  getSkillInsights: async (skills: string[]) => {
+    return fetchFromApi<{ insights: any; trends: any[] }>(
+      "/talent/skill-insights",
+      {
+        method: "POST",
+        body: JSON.stringify({ skills })
       }
     );
   }
