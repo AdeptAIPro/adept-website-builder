@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeft, Check, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { employeeApi } from '@/services/api/employee';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Button } from '@/components/ui/button';

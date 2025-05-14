@@ -1,31 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-
-interface TimesheetEntry {
-  date: string;
-  regularHours: number;
-  overtimeHours: number;
-  holidayHours: number;
-  breakTime: number;
-  notes: string;
-}
-
-interface Timesheet {
-  id: string;
-  employeeId: string;
-  weekStarting: string;
-  status: 'draft' | 'submitted' | 'approved' | 'rejected';
-  entries: TimesheetEntry[];
-  totalRegularHours: number;
-  totalOvertimeHours: number;
-  totalHolidayHours: number;
-  totalHours: number;
-}
+import { Timesheet, TimesheetEntry } from '@/types/timesheet';
 
 interface TimesheetGridProps {
   selectedDate: Date;

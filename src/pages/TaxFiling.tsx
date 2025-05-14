@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +26,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { TaxCalendar } from '@/components/payroll/TaxCalendar';
 import { TaxFormUploader } from '@/components/payroll/TaxFormUploader';
 import { payrollApi, TaxEvent } from '@/services/api/payroll';
+import { taxFormsApi } from '@/services/api/payroll/tax-filing';
 
 const TaxFiling: React.FC = () => {
   const navigate = useNavigate();
@@ -92,6 +92,15 @@ const TaxFiling: React.FC = () => {
         return <Badge variant="outline">{status}</Badge>;
     }
   };
+
+  // Fetch tax events
+  const { data } = useQuery({
+    queryKey: ['tax-events'],
+    queryFn: async () => {
+      const response = await taxFormsApi.getTaxEvents();
+      return response.events as TaxEvent[]; // Cast to ensure type safety
+    }
+  });
 
   return (
     <DashboardLayout>

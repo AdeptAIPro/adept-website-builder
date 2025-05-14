@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +38,7 @@ import {
 import { PayrollSummaryChart } from '@/components/payroll/PayrollSummaryChart';
 import { payrollApi } from '@/services/api/payroll';
 import { format } from 'date-fns';
+import { AlertCircle } from 'lucide-react';
 
 const PayrollReports: React.FC = () => {
   const navigate = useNavigate();

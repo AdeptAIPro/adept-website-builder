@@ -1,50 +1,6 @@
 
 import { fetchFromApi } from "./core";
-
-export interface TimeEntry {
-  date: string;
-  regularHours: number;
-  overtimeHours: number;
-  holidayHours?: number;
-  breakTime: number;
-  notes: string;
-}
-
-export interface PayrollCalculation {
-  regularPay: number;
-  overtimePay: number;
-  holidayPay: number;
-  stipend: number;
-  grossPay: number;
-  taxes: {
-    federal: number;
-    state: number;
-    medicare: number;
-    socialSecurity: number;
-    other: number;
-    total: number;
-  };
-  deductions: {
-    retirement: number;
-    health: number;
-    other: number;
-    total: number;
-  };
-  netPay: number;
-}
-
-export interface Timesheet {
-  id: string;
-  employeeId: string;
-  weekStarting: string;
-  status: 'draft' | 'submitted' | 'approved' | 'rejected';
-  entries: TimeEntry[];
-  totalRegularHours: number;
-  totalOvertimeHours: number;
-  totalHolidayHours?: number;
-  totalHours: number;
-  payrollCalculation?: PayrollCalculation;
-}
+import type { Timesheet, TimesheetEntry } from '@/types/timesheet';
 
 export const timeTrackingApi = {
   getTimesheets: async (employeeId: string = 'all', dateRange: string = 'current') => {
@@ -109,3 +65,26 @@ export const timeTrackingApi = {
     return response.data;
   }
 };
+
+export interface PayrollCalculation {
+  regularPay: number;
+  overtimePay: number;
+  holidayPay: number;
+  stipend: number;
+  grossPay: number;
+  taxes: {
+    federal: number;
+    state: number;
+    medicare: number;
+    socialSecurity: number;
+    other: number;
+    total: number;
+  };
+  deductions: {
+    retirement: number;
+    health: number;
+    other: number;
+    total: number;
+  };
+  netPay: number;
+}
