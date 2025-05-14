@@ -26,7 +26,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { TaxCalendar } from '@/components/payroll/TaxCalendar';
 import { TaxFormUploader } from '@/components/payroll/TaxFormUploader';
-import { payrollApi } from '@/services/api/payroll';
+import { payrollApi, TaxEvent } from '@/services/api/payroll';
 
 const TaxFiling: React.FC = () => {
   const navigate = useNavigate();

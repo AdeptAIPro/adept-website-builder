@@ -11,6 +11,7 @@ import { PayrollQuickLinks } from '@/components/payroll/PayrollQuickLinks';
 import { PayrollUpcomingEvents } from '@/components/payroll/PayrollUpcomingEvents';
 import { PayrollRecentActivity } from '@/components/payroll/PayrollRecentActivity';
 import { payrollApi } from '@/services/api/payroll';
+import { DashboardData } from '@/services/api/payroll';
 
 const PayrollDashboard: React.FC = () => {
   const { data, isLoading, error } = useQuery({
@@ -64,7 +65,7 @@ const PayrollDashboard: React.FC = () => {
           </div>
         </div>
 
-        <PayrollKpiCards dashboardData={data} />
+        <PayrollKpiCards dashboardData={data as DashboardData} />
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <PayrollQuickLinks />
