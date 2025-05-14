@@ -4,16 +4,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { TaxCalendar } from '@/components/payroll/TaxCalendar';
 import { TaxEvent as ApiTaxEvent } from '@/services/api/payroll/tax-filing';
 import { format } from 'date-fns';
-import { DayClickEventHandler } from 'react-day-picker';
-
-interface TaxEvent {
-  id: string;
-  date: string;
-  title: string;
-  description: string;
-  type: "federal" | "state" | "local";
-  status: "completed" | "pending" | "overdue";
-}
+import { TaxEvent } from '@/components/payroll/TaxCalendar';
 
 interface TaxCalendarWrapperProps {
   events: ApiTaxEvent[];
