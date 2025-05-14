@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { timeTrackingApi } from '@/services/api/timeTracking';
-import { Timesheet } from '@/types/timesheet';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,14 +10,17 @@ import { TimesheetApprovalTable } from '@/components/payroll/TimesheetApprovalTa
 import { toast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 
-interface ApprovalTabProps {
-  // Define props here if needed
+export interface ApprovalTabProps {
+  dateRange?: string;
+  setDateRange?: (range: string) => void;
 }
 
-export const ApprovalTab: React.FC<ApprovalTabProps> = () => {
+export const ApprovalTab: React.FC<ApprovalTabProps> = ({ 
+  dateRange = 'current-week', 
+  setDateRange 
+}) => {
   const [selectedTimesheets, setSelectedTimesheets] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState<string>('current-week');
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   // Fetch timesheets that need approval
   const { data: approvalData, isLoading, refetch } = useQuery({
@@ -79,7 +81,7 @@ export const ApprovalTab: React.FC<ApprovalTabProps> = () => {
   };
 
   // Generate summary stats
-  const pendingCount = approvalData?.timesheets?.filter(t => t.status === 'pending').length || 0;
+  const pendingCount = approvalData?.timesheets?.filter(t => t.status === 'submitted').length || 0;
   const approvedCount = approvalData?.timesheets?.filter(t => t.status === 'approved').length || 0;
   const rejectedCount = approvalData?.timesheets?.filter(t => t.status === 'rejected').length || 0;
   const totalHours = approvalData?.timesheets?.reduce((acc, t) => acc + t.totalHours, 0) || 0;
@@ -146,8 +148,8 @@ export const ApprovalTab: React.FC<ApprovalTabProps> = () => {
       ) : (
         <TimesheetApprovalTable
           timesheets={approvalData?.timesheets || []}
-          selectedTimesheets={selectedTimesheets}
-          onSelectTimesheet={handleSelectTimesheet}
+          onApprove={(id) => approveMutation.mutate([id])}
+          isApproving={approveMutation.isPending}
         />
       )}
     </div>

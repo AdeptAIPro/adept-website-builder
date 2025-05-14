@@ -4,6 +4,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { TaxCalendar } from '@/components/payroll/TaxCalendar';
 import { TaxEvent } from '@/services/api/payroll/tax-filing';
 import { format } from 'date-fns';
+import { DayClickEventHandler } from 'react-day-picker';
 
 interface TaxCalendarWrapperProps {
   events: TaxEvent[];
@@ -37,7 +38,7 @@ export const TaxCalendarWrapper: React.FC<TaxCalendarWrapperProps> = ({
               
               return (
                 <div className="relative flex h-8 w-8 items-center justify-center">
-                  {props.day}
+                  {props.children}
                   {hasEvent && (
                     <div className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
                   )}

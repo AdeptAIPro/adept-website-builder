@@ -22,6 +22,8 @@ export interface Timesheet {
     firstName: string;
     lastName: string;
     id: string;
+    position: string;
+    department: string;
   };
   submittedDate?: string;
 }

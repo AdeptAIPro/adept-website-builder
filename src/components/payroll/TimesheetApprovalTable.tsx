@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Check, Clock, Eye, X } from 'lucide-react';
 
-interface TimesheetEmployee {
+export interface TimesheetEmployee {
   id: string;
   firstName: string;
   lastName: string;
@@ -23,7 +23,7 @@ interface TimesheetEmployee {
   department: string;
 }
 
-interface Timesheet {
+export interface Timesheet {
   id: string;
   employee: TimesheetEmployee;
   weekStarting: string;
