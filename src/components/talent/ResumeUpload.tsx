@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Upload, User } from 'lucide-react';
+import { Upload, User, CircleUser } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { CustomLabel } from '../ui/custom-label';
 
@@ -38,15 +38,15 @@ const ResumeUpload: React.FC = () => {
   };
 
   return (
-    <Card className="h-full shadow-lg border-accent/10 overflow-hidden">
-      <CardHeader className="bg-accent/5 border-b border-accent/10">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-accent/20 flex items-center justify-center">
-            <User className="h-4 w-4 text-accent" />
+    <Card className="h-full shadow-lg overflow-hidden border-accent/20 transition-all hover:shadow-accent/10">
+      <CardHeader className="bg-accent/10 border-b border-accent/20">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-full bg-accent/20 flex items-center justify-center">
+            <CircleUser className="h-5 w-5 text-accent" />
           </div>
           <div>
-            <CardTitle>For Job Seekers</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-xl">For Job Seekers</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Get discovered by top employers
             </CardDescription>
           </div>
@@ -55,14 +55,14 @@ const ResumeUpload: React.FC = () => {
       <CardContent className="pt-6">
         <div className="flex flex-col space-y-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <CustomLabel htmlFor="resume">Upload Resume</CustomLabel>
+            <CustomLabel htmlFor="resume" className="font-medium">Upload Resume</CustomLabel>
             <div className="flex items-center gap-2">
               <Input 
                 id="resume" 
                 type="file" 
                 accept=".pdf,.doc,.docx" 
                 onChange={handleFileChange}
-                className="border-accent/20 focus-visible:ring-accent"
+                className="border-accent/20 focus-visible:ring-accent bg-background/80"
               />
             </div>
             <p className="text-xs text-muted-foreground">
@@ -72,8 +72,9 @@ const ResumeUpload: React.FC = () => {
           <Button 
             onClick={handleResumeSubmit} 
             disabled={!resumeFile} 
-            className="group" 
+            className="group transition-all" 
             variant="outline"
+            size="lg"
           >
             <Upload className="mr-2 h-4 w-4 group-hover:translate-y-[-2px] transition-transform" />
             Submit Resume

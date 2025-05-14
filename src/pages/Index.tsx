@@ -18,7 +18,10 @@ const Index: React.FC = () => {
         <Hero />
         <Features />
         <Solutions />
-        <TalentMatchmakingPreview />
+        <div className="relative">
+          {/* This wrapping div helps isolate the talent section styling */}
+          <TalentMatchmakingPreview />
+        </div>
         <Industries />
         <About />
         <Contact />

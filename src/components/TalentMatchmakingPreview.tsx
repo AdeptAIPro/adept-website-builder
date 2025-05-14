@@ -5,6 +5,7 @@ import ResumeUpload from './talent/ResumeUpload';
 import CandidateResults from './talent/CandidateResults';
 import FeatureHighlights from './talent/FeatureHighlights';
 import { toast } from "@/hooks/use-toast";
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const TalentMatchmakingPreview: React.FC = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
@@ -100,42 +101,59 @@ const TalentMatchmakingPreview: React.FC = () => {
   };
 
   return (
-    <section id="talent-matching" className="py-20 bg-gradient-to-b from-background to-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+    <section id="talent-matching" className="py-20 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-primary/5 -z-10"></div>
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-background to-transparent -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent -z-10"></div>
+      
+      {/* Decorative elements */}
+      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-accent/10 blur-3xl -z-10"></div>
+      <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-primary/10 blur-3xl -z-10"></div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <div className="inline-block mb-3 py-1 px-3 rounded-full bg-accent/10 text-accent text-sm font-medium">
+            AI-Powered Solution
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            AI-Powered <span className="gradient-text">Talent Matchmaking</span>
+            <span className="gradient-text text-4xl md:text-5xl">Talent Matchmaking</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground">
             Experience the power of our AI talent matching engine. Paste a job description to find matching candidates or upload your resume to be discovered by employers.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Job Description Input Section */}
-          <div className="md:col-span-2">
-            <JobDescriptionInput 
-              jobDescription={jobDescription}
-              setJobDescription={setJobDescription}
-              isAnalyzing={isAnalyzing}
-              onAnalyze={handleAnalyzeClick}
-            />
+        {/* Main content area with enhanced shadow and border */}
+        <div className="bg-card/80 backdrop-blur-sm border border-primary/10 rounded-xl shadow-xl overflow-hidden animate-fade-in">
+          <div className="grid md:grid-cols-3 gap-8 p-8">
+            {/* Job Description Input Section */}
+            <div className="md:col-span-2">
+              <JobDescriptionInput 
+                jobDescription={jobDescription}
+                setJobDescription={setJobDescription}
+                isAnalyzing={isAnalyzing}
+                onAnalyze={handleAnalyzeClick}
+              />
+            </div>
+            
+            {/* Resume Upload Section */}
+            <div>
+              <ResumeUpload />
+            </div>
           </div>
           
-          {/* Resume Upload Section */}
-          <div>
-            <ResumeUpload />
+          {/* Results Section */}
+          <CandidateResults 
+            candidates={candidates}
+            showLimited={showLimited}
+          />
+          
+          {/* Features/Benefits Section */}
+          <div className="bg-accent/5 border-t border-accent/10 p-8">
+            <FeatureHighlights />
           </div>
         </div>
-        
-        {/* Results Section */}
-        <CandidateResults 
-          candidates={candidates}
-          showLimited={showLimited}
-        />
-        
-        {/* Features/Benefits Section */}
-        <FeatureHighlights />
       </div>
     </section>
   );
