@@ -6,9 +6,10 @@ import { timeTrackingApi } from '@/services/api/timeTracking';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { TimesheetApprovalTable } from '@/components/payroll/TimesheetApprovalTable';
+import { TimesheetApprovalTable, Timesheet as ApprovalTimesheet } from '@/components/payroll/TimesheetApprovalTable';
 import { toast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle2 } from 'lucide-react';
+import { Timesheet as ApiTimesheet } from '@/types/timesheet';
 
 export interface ApprovalTabProps {
   dateRange?: string;
@@ -86,6 +87,26 @@ export const ApprovalTab: React.FC<ApprovalTabProps> = ({
   const rejectedCount = approvalData?.timesheets?.filter(t => t.status === 'rejected').length || 0;
   const totalHours = approvalData?.timesheets?.reduce((acc, t) => acc + t.totalHours, 0) || 0;
 
+  // Transform API timesheets to the format expected by TimesheetApprovalTable
+  const transformTimesheets = (apiTimesheets: ApiTimesheet[] = []): ApprovalTimesheet[] => {
+    return apiTimesheets.map(timesheet => ({
+      id: timesheet.id,
+      employee: {
+        id: timesheet.employeeId,
+        firstName: timesheet.employee?.firstName || '',
+        lastName: timesheet.employee?.lastName || '',
+        position: timesheet.employee?.position || '',
+        department: timesheet.employee?.department || '',
+      },
+      weekStarting: timesheet.weekStarting,
+      submittedDate: timesheet.submittedDate || new Date().toISOString(),
+      status: timesheet.status,
+      totalRegularHours: timesheet.totalRegularHours,
+      totalOvertimeHours: timesheet.totalOvertimeHours,
+      totalHours: timesheet.totalHours
+    }));
+  };
+
   return (
     <div className="space-y-6">
       {/* Summary cards */}
@@ -147,7 +168,7 @@ export const ApprovalTab: React.FC<ApprovalTabProps> = ({
         </div>
       ) : (
         <TimesheetApprovalTable
-          timesheets={approvalData?.timesheets || []}
+          timesheets={transformTimesheets(approvalData?.timesheets || [])}
           onApprove={(id) => approveMutation.mutate([id])}
           isApproving={approveMutation.isPending}
         />
