@@ -13,6 +13,15 @@ import Compliance from "./pages/Compliance";
 import Pricing from "./pages/Pricing";
 import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
+import PayrollDashboard from "./pages/PayrollDashboard";
+import EmployeeManagement from "./pages/EmployeeManagement";
+import AddEmployee from "./pages/AddEmployee";
+import Timesheets from "./pages/Timesheets";
+import RunPayroll from "./pages/RunPayroll";
+import DirectDeposit from "./pages/DirectDeposit";
+import TaxFiling from "./pages/TaxFiling";
+import PayrollReports from "./pages/PayrollReports";
+import EmployeeSelfService from "./pages/EmployeeSelfService";
 import AuthProvider from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -62,6 +71,79 @@ const App = () => (
                   <Compliance />
                 </ProtectedRoute>
               } 
+            />
+            {/* Payroll routes */}
+            <Route 
+              path="/dashboard/payroll" 
+              element={
+                <ProtectedRoute>
+                  <PayrollDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/payroll/employees" 
+              element={
+                <ProtectedRoute>
+                  <EmployeeManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/employees/new" 
+              element={
+                <ProtectedRoute>
+                  <AddEmployee />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/timesheets" 
+              element={
+                <ProtectedRoute>
+                  <Timesheets />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/run" 
+              element={
+                <ProtectedRoute>
+                  <RunPayroll />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/direct-deposit" 
+              element={
+                <ProtectedRoute>
+                  <DirectDeposit />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/tax-filing" 
+              element={
+                <ProtectedRoute>
+                  <TaxFiling />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/reports" 
+              element={
+                <ProtectedRoute>
+                  <PayrollReports />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/dashboard/payroll/employee-self-service" 
+              element={
+                <ProtectedRoute>
+                  <EmployeeSelfService />
+                </ProtectedRoute>
+              }
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
