@@ -10,6 +10,7 @@ interface TimesheetEntry {
   date: string;
   regularHours: number;
   overtimeHours: number;
+  holidayHours: number;
   breakTime: number;
   notes: string;
 }
@@ -22,6 +23,7 @@ interface Timesheet {
   entries: TimesheetEntry[];
   totalRegularHours: number;
   totalOvertimeHours: number;
+  totalHolidayHours: number;
   totalHours: number;
 }
 
@@ -53,6 +55,7 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
           date: format(date, 'yyyy-MM-dd'),
           regularHours: 0,
           overtimeHours: 0,
+          holidayHours: 0,
           breakTime: 0,
           notes: '',
         };
@@ -66,6 +69,7 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
         entries,
         totalRegularHours: 0,
         totalOvertimeHours: 0,
+        totalHolidayHours: 0,
         totalHours: 0,
       };
 
@@ -86,13 +90,15 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
     // Calculate totals
     const totalRegularHours = updatedEntries.reduce((sum, entry) => sum + entry.regularHours, 0);
     const totalOvertimeHours = updatedEntries.reduce((sum, entry) => sum + entry.overtimeHours, 0);
-    const totalHours = totalRegularHours + totalOvertimeHours;
+    const totalHolidayHours = updatedEntries.reduce((sum, entry) => sum + (entry.holidayHours || 0), 0);
+    const totalHours = totalRegularHours + totalOvertimeHours + totalHolidayHours;
 
     const updatedTimesheet = {
       ...timesheet,
       entries: updatedEntries,
       totalRegularHours,
       totalOvertimeHours,
+      totalHolidayHours,
       totalHours,
     };
 
@@ -145,6 +151,7 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
               <th className="border px-4 py-2 text-left">Day</th>
               <th className="border px-4 py-2 text-left">Regular Hours</th>
               <th className="border px-4 py-2 text-left">Overtime Hours</th>
+              <th className="border px-4 py-2 text-left">Holiday Hours</th>
               <th className="border px-4 py-2 text-left">Break (min)</th>
               <th className="border px-4 py-2 text-left">Notes</th>
             </tr>
@@ -181,6 +188,17 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
                   <Input
                     type="number"
                     min="0"
+                    step="0.5"
+                    value={entry.holidayHours || ''}
+                    onChange={(e) => handleChange(index, 'holidayHours', e.target.value)}
+                    className="h-9"
+                    disabled={timesheet.status === 'approved'}
+                  />
+                </td>
+                <td className="border px-4 py-2">
+                  <Input
+                    type="number"
+                    min="0"
                     step="5"
                     value={entry.breakTime || ''}
                     onChange={(e) => handleChange(index, 'breakTime', e.target.value)}
@@ -206,6 +224,7 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
               <td className="border px-4 py-2">Total</td>
               <td className="border px-4 py-2">{timesheet.totalRegularHours}</td>
               <td className="border px-4 py-2">{timesheet.totalOvertimeHours}</td>
+              <td className="border px-4 py-2">{timesheet.totalHolidayHours}</td>
               <td className="border px-4 py-2"></td>
               <td className="border px-4 py-2"></td>
             </tr>
@@ -214,7 +233,7 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
       </div>
 
       <div className="mt-4 rounded-lg bg-muted p-4">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-4">
           <div>
             <Label className="text-sm">Total Regular Hours</Label>
             <p className="mt-1 text-lg font-medium">{timesheet.totalRegularHours}</p>
@@ -222,6 +241,10 @@ export const TimesheetGrid: React.FC<TimesheetGridProps> = ({
           <div>
             <Label className="text-sm">Total Overtime Hours</Label>
             <p className="mt-1 text-lg font-medium">{timesheet.totalOvertimeHours}</p>
+          </div>
+          <div>
+            <Label className="text-sm">Total Holiday Hours</Label>
+            <p className="mt-1 text-lg font-medium">{timesheet.totalHolidayHours}</p>
           </div>
           <div>
             <Label className="text-sm">Total Hours</Label>

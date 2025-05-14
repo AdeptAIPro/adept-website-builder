@@ -102,8 +102,8 @@ const Timesheets: React.FC = () => {
 
   // Filter timesheets based on search term
   const filteredTimesheets = timesheetsData?.timesheets?.filter((timesheet: any) => 
-    timesheet.employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    timesheet.employee.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    timesheet.employee?.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    timesheet.employee?.lastName?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   if (isLoadingTimesheets && !timesheetsData) {

@@ -14,6 +14,35 @@ export interface Employee {
   startDate: string;
   salary?: number;
   hourlyRate?: number;
+  overtimeRate?: number;
+  holidayRate?: number;
+  stipend?: number;
+  ssn?: string;
+  bankAccount?: {
+    bankName: string;
+    accountType: string;
+    accountLast4: string;
+    routingNumber: string;
+    verified: boolean;
+  };
+  taxForms?: {
+    w4?: string;
+    i9?: string;
+    w2?: string;
+    w3?: string;
+    form941?: string;
+    form940?: string;
+    form1099NEC?: string;
+    form1096?: string;
+  };
+  taxWithholding?: {
+    filingStatus: 'single' | 'married' | 'marriedSeparate' | 'headOfHousehold';
+    allowances: number;
+    additionalWithholding: number;
+    taxExempt: boolean;
+    state: string;
+    lastUpdated: string;
+  };
 }
 
 export interface EmployeeResponse {
@@ -22,44 +51,49 @@ export interface EmployeeResponse {
 
 export const employeeApi = {
   getEmployees: async (employeeType: string = 'all') => {
-    return fetchFromApi<EmployeeResponse>(`/employees?type=${employeeType}`);
+    const response = await fetchFromApi<EmployeeResponse>(`/employees?type=${employeeType}`);
+    return response.data;
   },
   
   getEmployee: async (employeeId: string) => {
-    return fetchFromApi<{ employee: Employee }>(`/employees/${employeeId}`);
+    const response = await fetchFromApi<{ employee: Employee }>(`/employees/${employeeId}`);
+    return response.data;
   },
   
   createEmployee: async (employeeData: any) => {
-    return fetchFromApi<{ employee: Employee; id: string }>(
+    const response = await fetchFromApi<{ employee: Employee; id: string }>(
       "/employees", 
       {
         method: "POST",
         body: JSON.stringify(employeeData)
       }
     );
+    return response.data;
   },
   
   updateEmployee: async (employeeId: string, employeeData: any) => {
-    return fetchFromApi<{ employee: Employee }>(
+    const response = await fetchFromApi<{ employee: Employee }>(
       `/employees/${employeeId}`, 
       {
         method: "PUT",
         body: JSON.stringify(employeeData)
       }
     );
+    return response.data;
   },
   
   deleteEmployee: async (employeeId: string) => {
-    return fetchFromApi<{ success: boolean }>(
+    const response = await fetchFromApi<{ success: boolean }>(
       `/employees/${employeeId}`, 
       {
         method: "DELETE"
       }
     );
+    return response.data;
   },
   
   uploadEmployeeDocument: async (employeeId: string, formData: FormData) => {
-    return fetchFromApi<{ documentId: string }>(
+    const response = await fetchFromApi<{ documentId: string }>(
       `/employees/${employeeId}/documents`,
       {
         method: "POST",
@@ -69,5 +103,42 @@ export const employeeApi = {
         }
       }
     );
+    return response.data;
+  },
+  
+  generateTaxForm: async (employeeId: string, formType: string, year: string) => {
+    const response = await fetchFromApi<{ formUrl: string }>(
+      `/forms/generate`,
+      {
+        method: "POST", 
+        body: JSON.stringify({
+          employeeId,
+          formType,
+          year
+        })
+      }
+    );
+    return response.data;
+  },
+  
+  downloadTaxForm: async (employeeId: string, formType: string) => {
+    const response = await fetchFromApi<{ downloadUrl: string }>(
+      `/forms/download?employeeId=${employeeId}&form=${formType}`
+    );
+    return response.data;
+  },
+  
+  initiateTaxFormSigning: async (employeeId: string, formType: string) => {
+    const response = await fetchFromApi<{ signUrl: string }>(
+      `/forms/sign`,
+      {
+        method: "POST", 
+        body: JSON.stringify({
+          employeeId,
+          formType
+        })
+      }
+    );
+    return response.data;
   }
 };

@@ -34,8 +34,8 @@ export async function fetchFromApi<T>(
       throw new Error(errorData.message || `Error: ${response.status}`);
     }
 
-    const data = await response.json();
-    return { data };
+    const responseData = await response.json();
+    return { data: responseData };
   } catch (error) {
     console.error("API request failed:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown API error";
