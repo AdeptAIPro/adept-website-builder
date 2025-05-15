@@ -1,12 +1,4 @@
 
-import { fetchFromApi } from "./core";
-
-export const complianceApi = {
-  getComplianceStatus: async () => {
-    return fetchFromApi<{ status: any }>("/compliance/status");
-  },
-  
-  getRequiredDocuments: async () => {
-    return fetchFromApi<{ documents: any[] }>("/compliance/documents");
-  }
-};
+// This file has been moved to the backend folder
+// Re-export from the new location for backward compatibility
+export { complianceApi } from "@/backend/api/compliance";

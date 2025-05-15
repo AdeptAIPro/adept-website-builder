@@ -1,18 +1,4 @@
 
-import { fetchFromApi } from "./core";
-
-export const aiApi = {
-  generateInsights: async (data: any) => {
-    return fetchFromApi<{ insights: any }>(
-      "/ai/insights", 
-      {
-        method: "POST",
-        body: JSON.stringify(data)
-      }
-    );
-  },
-  
-  getAIAgents: async () => {
-    return fetchFromApi<{ agents: any[] }>("/ai/agents");
-  }
-};
+// This file has been moved to the backend folder
+// Re-export from the new location for backward compatibility
+export { aiApi } from "@/backend/api/ai";
