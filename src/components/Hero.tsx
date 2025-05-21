@@ -23,17 +23,15 @@ const Hero: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="gap-2 group" asChild>
                 <Link to="/dashboard">
-                  Go to Dashboard
+                  Get Started Today
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              {!isAuthenticated && (
-                <Button size="lg" variant="outline" asChild>
-                  <Link to="/login">
-                    Sign In
-                  </Link>
-                </Button>
-              )}
+              <Button size="lg" variant="outline" asChild>
+                <Link to="/dashboard/talent">
+                  Hire Top Talent
+                </Link>
+              </Button>
             </div>
           </div>
           

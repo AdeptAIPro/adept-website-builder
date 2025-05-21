@@ -3,11 +3,23 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { cn } from '@/lib/utils';
+import { useMobile } from '@/hooks/use-mobile';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useMobile();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -40,7 +52,29 @@ const Navbar: React.FC = () => {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* Persistent CTAs */}
+          {!isMobile && (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex"
+                onClick={() => navigate('/dashboard/talent')}
+              >
+                Hire Talent
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm" 
+                className="hidden md:flex"
+                onClick={() => document.getElementById('talent-matching')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Join as Candidate
+              </Button>
+            </>
+          )}
+          
           <Button
             className="hidden md:flex"
             onClick={() => navigate('/dashboard')}
@@ -110,14 +144,20 @@ const Navbar: React.FC = () => {
             <Link
               to="#solutions"
               className="text-foreground/70 transition-colors hover:text-foreground"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+                document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Solutions
             </Link>
             <Link
               to="#features"
               className="text-foreground/70 transition-colors hover:text-foreground"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Features
             </Link>
@@ -131,17 +171,47 @@ const Navbar: React.FC = () => {
             <Link
               to="#about"
               className="text-foreground/70 transition-colors hover:text-foreground"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               About
             </Link>
             <Link
               to="#contact"
               className="text-foreground/70 transition-colors hover:text-foreground"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Contact
             </Link>
+            
+            {/* Persistent CTA buttons for mobile */}
+            <div className="pt-2 flex flex-col gap-2 border-t border-border/40">
+              <Button
+                onClick={() => {
+                  navigate('/dashboard/talent');
+                  setIsMenuOpen(false);
+                }}
+                size="sm"
+              >
+                Hire Talent
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  document.getElementById('talent-matching')?.scrollIntoView({ behavior: 'smooth' });
+                  setIsMenuOpen(false);
+                }}
+              >
+                Join as Candidate
+              </Button>
+            </div>
+            
             <Button
               onClick={() => {
                 navigate('/dashboard');

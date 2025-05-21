@@ -9,6 +9,7 @@ import Industries from '@/components/Industries';
 import TalentMatchmakingPreview from '@/components/TalentMatchmakingPreview';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import ServiceCTA from '@/components/ServiceCTA';
 
 const Index: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Index: React.FC = () => {
         <Hero />
         <Features />
         <Solutions />
+        <ServiceCTA />
         <div className="relative">
           {/* This wrapping div helps isolate the talent section styling */}
           <TalentMatchmakingPreview />

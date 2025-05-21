@@ -29,6 +29,11 @@ const ServiceCTA: React.FC = () => {
                 </Link>
               </Button>
             </div>
+            
+            {/* Additional contact options */}
+            <div className="mt-8 text-sm text-muted-foreground">
+              Or call us directly at <a href="tel:+1234567890" className="font-medium text-primary">+1 (234) 567-890</a>
+            </div>
           </div>
         </div>
       </div>

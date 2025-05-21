@@ -6,6 +6,9 @@ import CandidateResults from './talent/CandidateResults';
 import FeatureHighlights from './talent/FeatureHighlights';
 import { toast } from "@/hooks/use-toast";
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const TalentMatchmakingPreview: React.FC = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
@@ -73,6 +76,25 @@ const TalentMatchmakingPreview: React.FC = () => {
   ];
 
   const handleAnalyzeClick = async () => {
+    // Form validation
+    if (!jobDescription.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter a job description before analyzing",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (jobDescription.trim().length < 50) {
+      toast({
+        title: "Insufficient Information",
+        description: "Please provide a more detailed job description for better matching results",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsAnalyzing(true);
     
     try {
@@ -122,6 +144,19 @@ const TalentMatchmakingPreview: React.FC = () => {
           <p className="text-lg text-muted-foreground">
             Experience the power of our AI talent matching engine. Paste a job description to find matching candidates or upload your resume to be discovered by employers.
           </p>
+
+          {/* Clear CTAs */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="gap-2 group" asChild>
+              <Link to="/dashboard/talent">
+                Hire Talent
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline">
+              Join as Candidate
+            </Button>
+          </div>
         </div>
         
         {/* Main content area with enhanced shadow and border */}

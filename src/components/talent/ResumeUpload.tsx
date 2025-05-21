@@ -3,12 +3,32 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Upload, User, CircleUser } from 'lucide-react';
+import { Upload, CircleUser } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { CustomLabel } from '../ui/custom-label';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const formSchema = z.object({
+  resume: z.instanceof(FileList).refine(files => files.length > 0, {
+    message: "Resume is required",
+  }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const ResumeUpload: React.FC = () => {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      resume: undefined,
+    },
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -31,10 +51,16 @@ const ResumeUpload: React.FC = () => {
       return;
     }
 
-    toast({
-      title: "Resume Submitted",
-      description: "Your resume has been submitted for AI analysis.",
-    });
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      toast({
+        title: "Resume Submitted",
+        description: "Your resume has been submitted for AI analysis.",
+      });
+    }, 1500);
   };
 
   return (
@@ -62,22 +88,38 @@ const ResumeUpload: React.FC = () => {
                 type="file" 
                 accept=".pdf,.doc,.docx" 
                 onChange={handleFileChange}
-                className="border-accent/20 focus-visible:ring-accent bg-background/80"
+                className="border-accent/20 focus-visible:ring-accent bg-background/80 w-full p-2 text-sm"
+                aria-label="Upload resume"
               />
             </div>
             <p className="text-xs text-muted-foreground">
               Accepted formats: PDF, DOC, DOCX
             </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              Maximum file size: 5MB
+            </p>
           </div>
           <Button 
             onClick={handleResumeSubmit} 
-            disabled={!resumeFile} 
-            className="group transition-all" 
+            disabled={!resumeFile || isSubmitting}
+            className="group transition-all w-full sm:w-auto" 
             variant="outline"
             size="lg"
           >
-            <Upload className="mr-2 h-4 w-4 group-hover:translate-y-[-2px] transition-transform" />
-            Submit Resume
+            {isSubmitting ? (
+              <span className="inline-flex items-center">
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              <>
+                <Upload className="mr-2 h-4 w-4 group-hover:translate-y-[-2px] transition-transform" />
+                Submit Resume
+              </>
+            )}
           </Button>
         </div>
       </CardContent>
