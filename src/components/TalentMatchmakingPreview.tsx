@@ -1,13 +1,12 @@
 
 import React, { useState } from 'react';
 import JobDescriptionInput from './talent/JobDescriptionInput';
-import ResumeUpload from './talent/ResumeUpload';
+import EnhancedResumeUpload from './EnhancedResumeUpload';
 import CandidateResults from './talent/CandidateResults';
 import FeatureHighlights from './talent/FeatureHighlights';
 import { toast } from "@/hooks/use-toast";
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TalentMatchmakingPreview: React.FC = () => {
@@ -76,7 +75,6 @@ const TalentMatchmakingPreview: React.FC = () => {
   ];
 
   const handleAnalyzeClick = async () => {
-    // Form validation
     if (!jobDescription.trim()) {
       toast({
         title: "Missing Information",
@@ -98,10 +96,6 @@ const TalentMatchmakingPreview: React.FC = () => {
     setIsAnalyzing(true);
     
     try {
-      // In production, this would call the actual API
-      // const response = await talentApi.matchJobDescription(jobDescription);
-      
-      // For demo, use mock data with a simulated delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       setCandidates(mockCandidates);
       setShowLimited(true);
@@ -136,27 +130,16 @@ const TalentMatchmakingPreview: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <div className="inline-block mb-3 py-1 px-3 rounded-full bg-accent/10 text-accent text-sm font-medium">
-            AI-Powered Solution
+            <Sparkles className="inline h-3 w-3 mr-1" />
+            Try Our AI Matching Live
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="gradient-text text-4xl md:text-5xl">Talent Matchmaking</span>
+            Experience <span className="gradient-text text-4xl md:text-5xl">AI Talent Matching</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Experience the power of our AI talent matching engine. Paste a job description to find matching candidates or upload your resume to be discovered by employers.
+            See our AI in action. Employers: paste a job description to find candidates. 
+            Job Seekers: upload your resume for instant analysis and matching.
           </p>
-
-          {/* Clear CTAs */}
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="gap-2 group" asChild>
-              <Link to="/dashboard/talent">
-                Hire Talent
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline">
-              Join as Candidate
-            </Button>
-          </div>
         </div>
         
         {/* Main content area with enhanced shadow and border */}
@@ -172,9 +155,9 @@ const TalentMatchmakingPreview: React.FC = () => {
               />
             </div>
             
-            {/* Resume Upload Section */}
+            {/* Enhanced Resume Upload Section */}
             <div>
-              <ResumeUpload />
+              <EnhancedResumeUpload />
             </div>
           </div>
           
@@ -187,6 +170,24 @@ const TalentMatchmakingPreview: React.FC = () => {
           {/* Features/Benefits Section */}
           <div className="bg-accent/5 border-t border-accent/10 p-8">
             <FeatureHighlights />
+            
+            {/* Ready to Get Started */}
+            <div className="text-center mt-8 pt-8 border-t border-accent/10">
+              <h3 className="text-xl font-semibold mb-4">Ready to Get Started?</h3>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="gap-2 group" asChild>
+                  <Link to="/dashboard/talent">
+                    Access Full Platform
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/contact">
+                    Schedule Demo
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

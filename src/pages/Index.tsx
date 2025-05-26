@@ -10,6 +10,8 @@ import TalentMatchmakingPreview from '@/components/TalentMatchmakingPreview';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ServiceCTA from '@/components/ServiceCTA';
+import CandidateSuccessStories from '@/components/CandidateSuccessStories';
+import TrustIndicators from '@/components/TrustIndicators';
 
 const Index: React.FC = () => {
   return (
@@ -17,7 +19,9 @@ const Index: React.FC = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        <TrustIndicators />
         <Features />
+        <CandidateSuccessStories />
         <Solutions />
         <ServiceCTA />
         <div className="relative">
